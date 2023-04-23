@@ -1,0 +1,236 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<style>
+  .card-img-top {
+    width: 100%;
+    height: 18vh;
+    object-fit: contain;
+  }
+
+  @media (max-width: 767.98px) {
+    .border-sm-start-none {
+      border-left: none !important;
+    }
+  }
+</style>
+
+
+<div class="container px-5">
+  <div class="panel panel-primary mx-auto">
+    <h1 class="panel-heading mt-5 mb-4">
+      Add Product <button (click)="toogleAdd()" id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle"
+         aria-haspopup="true" aria-expanded="false"></button>
+    </h1>
+    <h1 class="panel-heading mt-5 mb-4">
+      Edit Product <button (click)="toogleEdit()" id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle" aria-haspopup="true" aria-expanded="false"></button>
+    </h1>
+    <div [hidden]="showEdit">
+      <div class="alert alert-danger my-2" *ngIf="errorMessage">
+        <strong>Oh snap!</strong> <a class="alert-link px-1">{{errorMessage}}</a>.
+      </div>
+      <section style="background-color: #eee;">
+        <div class="container py-5">
+          <div class="row justify-content-center mb-3 gy-3">
+            <div *ngFor="let product of products" class="col-md-12 col-xl-10">
+              <div class="card shadow-0 border-2 rounded-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                        <img class="card-img-top" [src]="product.image" />
+                        <a href="#!">
+                          <div class="hover-overlay">
+                            <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                      <h5>{{product.name}}</h5>
+                      <div class="mb-2 text-muted small">
+                        <span>{{product.category}}</span>
+                        <span class="text-primary"> • </span>
+                        <span>{{product.brand}}</span>
+                        <span class="text-primary"> • </span>
+                        <span>In Stock : {{product.countInStock}}<br /></span>
+                      </div>
+                      <p class="text-truncate mb-4 mb-md-0">
+                        {{product.description}}
+                      </p>
+                    </div>
+                    <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <h4 class="mb-1 me-1">$ {{product.price}}</h4>
+                      </div>
+                      <div class="d-flex flex-column mt-4">
+                        <button (click)="editProduct(product, false)" class="btn btn-dark btn-sm" type="button">{{text}}</button>
+                        <button (click)="editProduct(product, true)" class="btn btn-outline-danger btn-sm mt-2" type="button">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div [hidden]="show">
+      <div class="alert alert-danger my-2" *ngIf="errorMessage">
+        <strong>Oh snap!</strong> <a class="alert-link px-1">{{errorMessage}}</a> and try submitting again.
+      </div>
+      <div class="alert alert-success my-2" *ngIf="successMessage">
+        <strong>Well done!</strong><a routerLink="/" class="alert-link px-1">{{successMessage}}</a>.
+      </div>
+      <div class="panel-body">
+        <form [formGroup]="adminform" >
+          <div class="form-group" [ngClass]="{'has-error': !formData.name.valid && formData.name.touched}">
+            <label>
+              <h6>Product Name</h6>
+            </label>
+            <input type="text" class="form-control" name="name" formControlName="name" [ngModel]="EditProduct?.name"/>
+            <div *ngIf="formData.name.touched && formData.name.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData.name.errors.required">
+                The Product Name is required
+              </div>
+              <div class="alert alert-danger" *ngIf="formData.name.errors.pattern">
+                The Name is not valid, Numeric data not allowed
+              </div>
+            </div>
+          </div>
+          <div [hidden]="showEdit" class="form-group" [ngClass]="{'has-error': !formData._id.valid && formData._id.touched}">
+            <label>
+              <h6>Product ID</h6>
+            </label>
+            <input type="text" class="form-control" name="_id" formControlName="_id" [ngModel]="EditProduct?._id" [disabled]="isDisabled" />
+            <div *ngIf="formData._id.touched && formData._id.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData._id.errors.required">
+                The Product Id is required
+              </div>
+              <div class="alert alert-danger" *ngIf="formData._id.errors.pattern">
+                The Id is not valid, Numeric data not allowed
+              </div>
+            </div>
+          </div>
+          <div class="form-group my-3" [ngClass]="{'has-error': !formData.image.valid && formData.image.touched}">
+            <label>
+              <h6>Image</h6>
+            </label>
+            <input type="text" class="form-control" name="image" formControlName="image" [ngModel]="EditProduct?.image"   />
+            <div *ngIf="formData.image.touched && formData.image.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData.image.errors.required">
+                The Image is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group my-3"
+            [ngClass]="{'has-error': !formData.description.valid && formData.description.touched}">
+            <label>
+              <h6>Description</h6>
+            </label>
+            <textarea class="form-control" name="description" formControlName="description" [ngModel]="EditProduct?.description"  >
+          </textarea>
+            <div *ngIf="formData.description.touched && formData.description.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData.description.errors.description">
+                The Description is required
+              </div>
+            </div>
+          </div>
+          <div class="container" style="margin-left: -10px;">
+            <div class="row gy-2">
+              <div class="col-xs-2 col-sm-6 col-md-6
+                    col-lg-6 col-xl-3">
+                <div class="form-group" [ngClass]="{'has-error': !formData.price.valid && formData.price.touched}">
+                  <label>
+                    <h6>Price:</h6>
+                  </label>
+                  <input type="number" class="form-control" name="price" formControlName="price" [ngModel]="EditProduct?.price" />
+                  <div *ngIf="formData.price.touched && formData.price.errors" style="margin-top:10px">
+                    <div class="alert alert-danger" *ngIf="formData.price.errors.price">
+                      The Price is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-2 col-sm-6 col-md-6
+                    col-lg-6 col-xl-3">
+                <div class="form-group" [ngClass]="{'has-error': !formData.brand.valid && formData.brand.touched}">
+                  <label>
+                    <h6>Brand:</h6>
+                  </label>
+                  <input type="text" class="form-control" name="brand" formControlName="brand" [ngModel]="EditProduct?.brand" />
+                  <div *ngIf="formData.brand.touched && formData.brand.errors" style="margin-top:10px">
+                    <div class="alert alert-danger" *ngIf="formData.brand.errors.required">
+                      The Brand is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-2 col-sm-6 col-md-6
+                    col-lg-6 col-xl-3">
+                <div class="form-group"
+                  [ngClass]="{'has-error': !formData.category.valid && formData.category.touched}">
+                  <label>
+                    <h6>Category:</h6>
+                  </label>
+                  <input type="text" class="form-control" name="category" formControlName="category" [ngModel]="EditProduct?.category" />
+                  <div *ngIf="formData.category.touched && formData.category.errors" style="margin-top:10px">
+                    <div class="alert alert-danger" *ngIf="formData.category.errors.category">
+                      The Category is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-2 col-sm-6 col-md-6
+                    col-lg-6 col-xl-3">
+                <div class="form-group"
+                  [ngClass]="{'has-error': !formData.countInStock.valid && formData.countInStock.touched}">
+                  <label>
+                    <h6>Count In Stock:</h6>
+                  </label>
+                  <input type="number" class="form-control" name="countInStock" formControlName="countInStock" [ngModel]="EditProduct?.countInStock" />
+                  <div *ngIf="formData.countInStock.touched && formData.countInStock.errors" style="margin-top:10px">
+                    <div class="alert alert-danger" *ngIf="formData.countInStock.errors.countInStock">
+                      The Count In Stock is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group my-2" [ngClass]="{'has-error': !formData.email.valid && formData.email.touched}">
+            <label>
+              <h6>Email:</h6>
+            </label>
+            <input type="email" class="form-control" name="email" formControlName="email" />
+            <div *ngIf="formData.email.touched && formData.email.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData.email.errors.required">
+                The Email is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group my-2" [ngClass]="{'has-error': !formData.password.valid && formData.password.touched}">
+            <label>
+              <h6>Password:</h6>
+            </label>
+            <input type="password" class="form-control" name="password" formControlName="password" />
+            <div *ngIf="formData.password.touched && formData.password.errors" style="margin-top:10px">
+              <div class="alert alert-danger" *ngIf="formData.password.errors.required">
+                The password is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group my-3">
+            <button (click)="onSubmit(adminform.value)" class="btn btn-dark py-3 px-5">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  `

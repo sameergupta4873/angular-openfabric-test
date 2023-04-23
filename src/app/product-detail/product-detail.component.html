@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <div class="alert alert-danger my-2" *ngIf="errorMessage">
+    <strong>Oh snap!</strong> <a class="alert-link px-1">{{errorMessage}}</a>.
+  </div>
+  <div *ngIf="product" class="row">
+    <div class="col-md-6 px-5">
+      <img [src]="product.image" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2>{{product.name}}</h2>
+      <p class="price">${{product.price}}</p>
+      <p class="description">{{product.description}}</p>
+      <form>
+        <div class="form-group my-3">
+          <label for="size">Size:</label>
+          <select class="form-control" id="size">
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+          </select>
+        </div>
+        <div class="form-group my-3">
+          <label for="quantity">Quantity:</label>
+          <input type="number" class="form-control" id="quantity" value="1">
+        </div>
+        <button type="submit" class="btn btn-dark my-3 py-3 px-5">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
