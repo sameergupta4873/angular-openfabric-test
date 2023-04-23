@@ -98,6 +98,7 @@ export class AdminComponent  {
         }
         const headers = new HttpHeaders()
           .set('Content-Type', 'application/json')
+          .set('Access-Control-Allow-Origin', '*')
           .set('Authorization', `Bearer ${user.token}`);
         this.http
           .post(url, product, { headers: headers })
