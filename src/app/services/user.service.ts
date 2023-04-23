@@ -15,8 +15,6 @@ export class UserService {
       .set('Content-Type', 'application/json')
       .set('Access-Control-Allow-Origin', '*');
     const user = this.http.post<User>(`https://open-fabric-backend.vercel.app/api/user/login`, {email, password}, {headers: tokenHeaders}) ?? new User();
-    console.log(user);
-
     return user;
   }
 

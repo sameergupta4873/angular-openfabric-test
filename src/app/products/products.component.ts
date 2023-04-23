@@ -17,7 +17,6 @@ export class ProductsComponent {
         this.products = products;
       },
       (error) => {
-        console.log(error.statusText);
         this.errorMessage = error.statusText;
       }
     );

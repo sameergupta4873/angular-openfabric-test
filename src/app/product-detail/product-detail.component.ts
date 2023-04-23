@@ -23,7 +23,6 @@ export class ProductDetailComponent {
             this.product = product;
           },
           (error) => {
-            console.log(error.statusText);
             this.errorMessage = error.statusText;
           }
         );

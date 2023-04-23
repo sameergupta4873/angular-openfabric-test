@@ -68,7 +68,6 @@ export class AdminComponent  {
         this.products = products;
       },
       (error) => {
-        console.log(error.statusText);
         this.errorMessage = error.statusText;
       }
     );
@@ -84,8 +83,6 @@ export class AdminComponent  {
   onSubmit(product: any): void {
     const { email, password } = product;
     if (this.adminform.valid) {
-      console.log(product);
-
       let ObservableUser: Observable<User>;
       const userService = new UserService(this.http);
       ObservableUser = userService.getUser(email, password);
@@ -104,17 +101,14 @@ export class AdminComponent  {
           .post(url, product, { headers: headers })
           .subscribe(
             (res: any) => {
-              console.log(res);
               this.successMessage = res.message;
             },
             err => {
-              console.log(err.error);
               this.errorMessage = err.error.message;
             }
           );
       },
         err => {
-          console.log(err.error.message);
           this.errorMessage = err.error.message;
         },
       )
