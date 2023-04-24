@@ -32,14 +32,25 @@ export class AdminComponent  {
   loading = false;
 
   toogleAdd() {
-    this.show = !this.show;
+    this.show = false;
     this.delete = false;
     this.showEdit = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.EditProduct = undefined;
   }
   
   toogleEdit() {
     this.showEdit = !this.showEdit;
     this.show = true;
+    this.productService.getAll().subscribe(
+      (products) => {
+        this.products = products;
+      },
+      (error) => {
+        this.errorMessage = error.statusText;
+      }
+    );
   }
 
   editProduct(product: Product, type: boolean) {
@@ -47,6 +58,8 @@ export class AdminComponent  {
     this.showEdit = true;
     this.delete = type;
     this.show = false;
+    this.errorMessage = '';
+    this.successMessage = '';
   }
 
 
