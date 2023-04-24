@@ -28,9 +28,13 @@
         <strong>Oh snap!</strong> <a class="alert-link px-1">{{errorMessage}}</a>.
       </div>
       <section style="background-color: #eee;">
+        <div  class="d-flex justify-content-center">
+          <div [hidden]="!loading" class="spinner-border" style="width: 2rem; height: 2rem; margin: 3rem 0;" role="status">
+          </div>
+        </div>
         <div class="container py-5">
           <div class="row justify-content-center mb-3 gy-3">
-            <div *ngFor="let product of products" class="col-md-12 col-xl-10">
+            <div [hidden]="loading" *ngFor="let product of products" class="col-md-12 col-xl-10">
               <div class="card shadow-0 border-2 rounded-3">
                 <div class="card-body">
                   <div class="row">

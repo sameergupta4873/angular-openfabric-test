@@ -30,6 +30,7 @@ export class AdminComponent  {
   text = 'Edit';
   delete = false;
   loading = false;
+  loadingEdit = false;
 
   toogleAdd() {
     this.show = false;
@@ -41,14 +42,17 @@ export class AdminComponent  {
   }
   
   toogleEdit() {
+    this.loadingEdit = true;
     this.showEdit = !this.showEdit;
     this.show = true;
     this.productService.getAll().subscribe(
       (products) => {
         this.products = products;
+        this.loadingEdit = false;
       },
       (error) => {
         this.errorMessage = error.statusText;
+        this.loadingEdit = false;
       }
     );
   }
@@ -99,6 +103,8 @@ export class AdminComponent  {
   onSubmit(product: any): void {
     const { email, password } = product;
     this.loading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
     if (this.adminform.valid) {
       let ObservableUser: Observable<User>;
       const userService = new UserService(this.http);
