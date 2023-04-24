@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductDetailComponent {
   product!: Product;
   errorMessage?: null;
+  loading = true;
   constructor(activatedRoute: ActivatedRoute, private http: HttpClient) {
     const _id = activatedRoute.params.subscribe((params) => {
       let productService = new ProductService(http);
@@ -21,9 +22,11 @@ export class ProductDetailComponent {
         subscribe(
           (product) => {
             this.product = product;
+            this.loading = false;
           },
           (error) => {
             this.errorMessage = error.statusText;
+            this.loading = false;
           }
         );
       }

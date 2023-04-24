@@ -25,19 +25,22 @@ export class AdminComponent  {
   successMessage?: '';
   show = true;
   isDisabled = true;
+  showEdit = true;
+  EditProduct?: Product;
+  text = 'Edit';
+  delete = false;
+  loading = false;
+
   toogleAdd() {
     this.show = !this.show;
     this.delete = false;
     this.showEdit = true;
   }
-  showEdit = true;
+  
   toogleEdit() {
     this.showEdit = !this.showEdit;
     this.show = true;
   }
-  EditProduct?: Product;
-  text = 'Edit';
-  delete = false;
 
   editProduct(product: Product, type: boolean) {
     this.EditProduct = product;
@@ -82,6 +85,7 @@ export class AdminComponent  {
   }
   onSubmit(product: any): void {
     const { email, password } = product;
+    this.loading = true;
     if (this.adminform.valid) {
       let ObservableUser: Observable<User>;
       const userService = new UserService(this.http);
@@ -102,18 +106,22 @@ export class AdminComponent  {
           .subscribe(
             (res: any) => {
               this.successMessage = res.message;
+              this.loading = false;
             },
             err => {
               this.errorMessage = err.error.message;
+              this.loading = false;
             }
           );
       },
         err => {
           this.errorMessage = err.error.message;
+          this.loading = false;
         },
       )
     } else {
       this.validateForm();
+      this.loading = false;
     }
   }
 }

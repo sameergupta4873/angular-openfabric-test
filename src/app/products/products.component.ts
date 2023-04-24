@@ -11,13 +11,16 @@ import { Observable } from 'rxjs';
 export class ProductsComponent {
   products: Product[] = [];
   errorMessage?: null;
+  loading = true;
   constructor(private productService: ProductService) {
     this.productService.getAll().subscribe(
       (products) => {
         this.products = products;
+        this.loading = false;
       },
       (error) => {
         this.errorMessage = error.statusText;
+        this.loading = false;
       }
     );
   }

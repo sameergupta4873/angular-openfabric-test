@@ -83,6 +83,10 @@
       <div class="alert alert-success my-2" *ngIf="successMessage">
         <strong>Well done!</strong><a routerLink="/" class="alert-link px-1">{{successMessage}}</a>.
       </div>
+      <div  class="d-flex justify-content-center">
+        <div [hidden]="!loading" class="spinner-border" style="width: 2rem; height: 2rem; margin: 2rem 0;" role="status">
+        </div>
+      </div>
       <div class="panel-body">
         <form [formGroup]="adminform" >
           <div class="form-group" [ngClass]="{'has-error': !formData.name.valid && formData.name.touched}">

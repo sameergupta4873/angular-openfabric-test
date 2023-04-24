@@ -2,44 +2,48 @@
   .card-img-top {
     width: 100%;
     height: 30vh;
-    object-fit:contain;
-}
+    object-fit: contain;
+  }
 </style>
 
 <section style="min-height: 100vh; background-color: #eee;">
-  <div  class="container py-5">
+  <div class="container py-5">
     <div class="alert alert-danger my-2" *ngIf="errorMessage">
       <strong>Oh snap!</strong> <a class="alert-link px-1">{{errorMessage}}</a>.
     </div>
-    <div class="row">
+    <div class="d-flex justify-content-center">
+      <div [hidden]="!loading" class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 10%;" role="status">
+      </div>
+    </div>
+    <div [hidden]="loading" class="row">
       <!-- <a routerLink="/product-detail" routerLinkActive="active" ariaCurrentWhenActive="page"> -->
-        <div *ngFor="let product of products" class="col-md-12 col-lg-4 my-4 mb-lg-0" routerLink="/product-detail/{{product._id}}">
-          <div class="card px-2">
-            <img [src]="product.image" class="card-img-top mt-4"
-              alt="Laptop" />
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <p class="small"><a href="#!" class="text-muted">{{product.category}}</a></p>
-                <!-- <p class="small text-danger"><s>$999</s></p> -->
-                <p class="text-muted mb-0">Available: <span class="fw-bold">{{product.countInStock}}</span></p>
-              </div>
+      <div *ngFor="let product of products" class="col-md-12 col-lg-4 my-4 mb-lg-0"
+        routerLink="/product-detail/{{product._id}}">
+        <div class="card px-2">
+          <img [src]="product.image" class="card-img-top mt-4" alt="Laptop" />
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <p class="small"><a href="#!" class="text-muted">{{product.category}}</a></p>
+              <!-- <p class="small text-danger"><s>$999</s></p> -->
+              <p class="text-muted mb-0">Available: <span class="fw-bold">{{product.countInStock}}</span></p>
+            </div>
 
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="mb-0">{{product.name}}</h6>
-                <h6 class="text-dark mb-0">${{product.price}}</h6>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <div class="ms-auto text-warning">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
+            <div class="d-flex justify-content-between mb-3">
+              <h6 class="mb-0">{{product.name}}</h6>
+              <h6 class="text-dark mb-0">${{product.price}}</h6>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <div class="ms-auto text-warning">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </section>
