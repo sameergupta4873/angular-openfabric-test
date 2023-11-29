@@ -9,10 +9,10 @@ export class OrderService {
 
   constructor(private http:HttpClient) {}
     getAll(): Observable<any[]>{
-      return this.http.get<any[]>('http://localhost:5000/api/orders');
+      return this.http.get<any[]>('https://open-fabric-backend.vercel.app/api/orders');
     }
 
     createOrder(order: any): Observable<any> {
-      return this.http.post<any>('http://localhost:5000/api/orders', order);
+      return this.http.post<any>('https://open-fabric-backend.vercel.app/api/orders', order);
     }
 }
