@@ -12,6 +12,7 @@ import { User } from '../shared/models/User';
 import { UserService } from '../services/user.service';
 import { Product } from '../shared/models/Product';
 import { ProductService } from '../services/product.service';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-admin',
@@ -31,6 +32,9 @@ export class AdminComponent  {
   delete = false;
   loading = false;
   loadingEdit = false;
+  orders: any[] = [];
+  loadingOrders = false;
+  hideOrders = true;
 
   toogleAdd() {
     this.show = false;
@@ -57,6 +61,27 @@ export class AdminComponent  {
     );
   }
 
+
+  toogleOrders(){
+    this.showEdit = true;
+    this.show = true;
+    this.loadingOrders = true;
+    this.hideOrders = !this.hideOrders;
+    this.showEdit = true;
+    this.show = true;
+    this.orderService.getAll().subscribe(
+      (orders) => {
+        this.orders = orders;
+        this.loadingOrders = false;
+        console.log(this.orders);
+      },
+      (error) => {
+        this.errorMessage = error.statusText;
+        this.loadingOrders = false;
+      }
+    );
+  }
+
   editProduct(product: Product, type: boolean) {
     this.EditProduct = product;
     this.showEdit = true;
@@ -68,7 +93,7 @@ export class AdminComponent  {
 
 
   products: Product[] = [];
-  constructor(private http: HttpClient, private productService: ProductService) {
+  constructor(private http: HttpClient, private productService: ProductService, private orderService: OrderService) {
     this.adminform = new FormGroup({
       _id: new FormControl(''),
       name: new FormControl('', [Validators.required]),
@@ -91,7 +116,17 @@ export class AdminComponent  {
         this.errorMessage = error.statusText;
       }
     );
+    this.orderService.getAll().subscribe(
+      (orders) => {
+        this.orders = orders;
+        console.log(this.orders);
+      },
+      (error) => {
+        this.errorMessage = error.statusText;
+      }
+    );
   }
+
 
   get formData() {
     return this.adminform.controls;
@@ -143,4 +178,8 @@ export class AdminComponent  {
       this.loading = false;
     }
   }
+
+  // orders
+  
+  
 }

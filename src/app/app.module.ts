@@ -8,6 +8,8 @@ import { ProductsComponent } from './products/products.component';
 import {HttpClientModule} from '@angular/common/http';
 import { AdminComponent } from './admin/admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartComponent } from './cart/cart.component';
+import { CheekoutComponent } from './cheekout/cheekout.component';
 
 
 
@@ -17,7 +19,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     ProductsComponent,
     ProductDetailComponent,
-    AdminComponent
+    AdminComponent,
+    CartComponent,
+    CheekoutComponent
   ],
   imports: [
     BrowserModule,
